@@ -1,31 +1,8 @@
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
-from .models import Post, Comment, User
+from .models import Post
 
-admin.site.register(Comment)
-
+@admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title')
-
-admin.site.register(Post, PostAdmin)
-
-class CustomUserAdmin(UserAdmin):
-    model = User
-    list_display = ('email', 'username', 'is_staff', 'is_active')
-    list_filter = ('is_staff', 'is_active')
-    fieldsets = (
-        (None, {'fields': ('email', 'password')}),
-        ('Personal Info', {'fields': ('username',)}),
-        ('Permissions', {'fields': ('is_staff', 'is_active', 'is_superuser')}),
-        ('Important dates', {'fields': ('last_login', 'date_joined')}),
-    )
-    add_fieldsets = (
-        (None, {
-            'classes': ('wide',),
-            'fields': ('email', 'username', 'password1', 'password2', 'is_staff', 'is_active')}
-        ),
-    )
-    search_fields = ('email', 'username')
-    ordering = ('email',)
-
-admin.site.register(User, CustomUserAdmin)
+    list_display = ('title', 'user_id', 'created_at')
+    search_fields = ('title', 'user_id')
+    list_filter = ('created_at',)
